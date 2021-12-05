@@ -31,8 +31,8 @@ vector<coordinatePair> read_coords(string file_path) {
     }
     
     string line;
+    coordinate fst, snd;
     while (getline(file, line)) {
-        coordinate fst, snd;
         // cout << "Reading: " << line << endl;
         fst = string_to_coord(line.substr(0, line.find("->")));
         snd = string_to_coord(line.substr(line.find("->") + 3, line.size()));
@@ -68,22 +68,19 @@ vector<coordinate> expand_pair(coordinate a, coordinate b, bool diagonal=false) 
 }
 
 int main(int argc, char* argv[]) {
-    vector<coordinatePair> coords = read_coords("../test.txt");
+    vector<coordinatePair> coords = read_coords("../input.txt");
     map<coordinate, int> grid;
 
     for (auto coord_pair: coords) {
         for (auto coord: expand_pair(coord_pair.first, coord_pair.second)) {
             grid[coord] += 1;
         }
-
     }
 
     int part1 = 0;
     for (auto kv: grid) {
         // cout << coord_to_string(kv.first) << " --> " << kv.second << endl;
-        if (kv.second >= 2) {
-            part1++;
-        }
+        if (kv.second >= 2) part1++;
     }
     grid.clear();
 
@@ -100,9 +97,7 @@ int main(int argc, char* argv[]) {
     }
 
     for (auto kv: grid) {
-        if (kv.second >= 2) {
-            part2++;
-        }
+        if (kv.second >= 2) part2++;
     }
 
     cout << "Part 1: " << part1 << endl;
